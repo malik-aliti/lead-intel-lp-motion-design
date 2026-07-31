@@ -35,7 +35,7 @@ npm run dev            # opens Remotion Studio
 | `Loop-16x9`      | 1920×1080 | 360 | ambient bg loop |
 | `Loop-1x1`       | 1080×1080 | 360 | ambient square |
 | `Loop-9x16`      | 1080×1920 | 360 | ambient mobile |
-| `Narrative-Sound-16x9` | 1920×1080 | 720 | **Version B** — hero film + sound design |
+| `Narrative-Sound-16x9` | 1920×1080 | 765 | **Version B** — hero film + sound design |
 | `Loop-Sound-16x9`      | 1920×1080 | 360 | **Version B** — ambient loop + sound |
 
 ### Two versions to compare (silent vs sound)
@@ -127,11 +127,11 @@ src/
     useStage.ts   aspect-aware unit / margins (one set of scenes → 3 ratios)
   components/      Background, ScanLine (signature), EngineCore, Meter, Wordmark,
                    Label, ProfileCard, ScoreCounter, PhoneFrame, LeadPacket, Fade
-  scenes/         SceneWordmark (open + end), SceneCapture, SceneDualScore,
-                   SceneConvergence, SceneRouteCRM, ScenePhoneAlert
-  Narrative.tsx   the 24s film (scenes as <Sequence>s over one canvas)
+  scenes/         SceneWordmark (open + end), SceneCapture, SceneEnrichment,
+                   SceneGlobalScore, SceneCRM, ScenePhoneAlert
+  Narrative.tsx   the narrative film (scenes as <Sequence>s over one canvas)
   Loop.tsx        the 12s seamless loop (same primitives, phase-driven)
-  Root.tsx        registers all 6 compositions
+  Root.tsx        registers all 8 compositions
 public/fonts/     Poppins 300–900 woff2 (self-hosted, matches the live site)
 ```
 
