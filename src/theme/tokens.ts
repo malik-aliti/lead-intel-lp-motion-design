@@ -130,7 +130,7 @@ export const NARRATIVE_DURATION = 900;
 /**
  * Voice-over line start frames. Tuned so each line clears the previous one (no
  * overlapping speech) and the last finishes before frame 900, while staying
- * aligned to its scene. Sized for the Reed voice at rate 205.
+ * aligned to its scene. Fits the Tom (Enhanced) voice at rate 180.
  */
 export const VO_AT = {
   l1: 6, // cold open

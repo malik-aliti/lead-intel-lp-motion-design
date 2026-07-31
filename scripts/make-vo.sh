@@ -3,8 +3,8 @@
 # Usage:  bash scripts/make-vo.sh "Reed (Anglais (É.-U.))" 168
 # Then re-render:  npx remotion render Narrative-VO-16x9 out/videos/...-VO.mp4
 set -e
-VOICE="${1:-Reed (Anglais (É.-U.))}"
-RATE="${2:-205}"
+VOICE="${1:-Tom (Enhanced)}"
+RATE="${2:-180}"
 DIR="$(cd "$(dirname "$0")/.." && pwd)/public/audio/vo"
 mkdir -p "$DIR"
 
