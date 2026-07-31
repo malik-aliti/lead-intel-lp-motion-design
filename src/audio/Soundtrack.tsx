@@ -9,7 +9,8 @@
  *  - a notification ding + a low bass hit at the FIRE alert (the hero beat)
  *  - a very quiet ambient bed underneath
  */
-import { Audio, Sequence, staticFile } from "remotion";
+import { Sequence, staticFile } from "remotion";
+import { Audio } from "@remotion/media";
 
 const A = (f: string) => staticFile(`audio/${f}`);
 
@@ -18,23 +19,27 @@ const TICKS = [80, 90, 100, 110, 120, 130];
 
 export const SoundtrackNarrative: React.FC = () => (
   <>
-    <Audio src={A("bed.wav")} volume={0.16} loop />
+    {/* ambient bed: barely there */}
+    <Audio src={A("bed.wav")} volume={0.1} loop />
+    {/* capture ticks: soft, they should register subliminally */}
     {TICKS.map((f, i) => (
       <Sequence key={i} from={f} name={`tick ${i + 1}`}>
-        <Audio src={A("tick.wav")} volume={0.32} />
+        <Audio src={A("tick.wav")} volume={0.26} />
       </Sequence>
     ))}
+    {/* rising tone under the scoring: present but never fatiguing */}
     <Sequence from={150} name="score rise">
-      <Audio src={A("rise.wav")} volume={0.4} />
+      <Audio src={A("rise.wav")} volume={0.3} />
     </Sequence>
+    {/* the accents lead the mix — clear moments */}
     <Sequence from={398} name="score lock">
-      <Audio src={A("chime.wav")} volume={0.36} />
+      <Audio src={A("chime.wav")} volume={0.44} />
     </Sequence>
     <Sequence from={540} name="notification ding">
-      <Audio src={A("ding.wav")} volume={0.5} />
+      <Audio src={A("ding.wav")} volume={0.56} />
     </Sequence>
     <Sequence from={552} name="FIRE bass">
-      <Audio src={A("bass.wav")} volume={0.6} />
+      <Audio src={A("bass.wav")} volume={0.72} />
     </Sequence>
   </>
 );
@@ -42,18 +47,18 @@ export const SoundtrackNarrative: React.FC = () => (
 /** Loop soundtrack: bed + one ding/bass at the single FIRE beat (~frame 245). */
 export const SoundtrackLoop: React.FC = () => (
   <>
-    <Audio src={A("bed.wav")} volume={0.16} loop />
+    <Audio src={A("bed.wav")} volume={0.1} loop />
     <Sequence from={108} name="tick a">
-      <Audio src={A("tick.wav")} volume={0.26} />
+      <Audio src={A("tick.wav")} volume={0.22} />
     </Sequence>
     <Sequence from={150} name="tick b">
-      <Audio src={A("tick.wav")} volume={0.26} />
+      <Audio src={A("tick.wav")} volume={0.22} />
     </Sequence>
     <Sequence from={232} name="FIRE ding">
-      <Audio src={A("ding.wav")} volume={0.44} />
+      <Audio src={A("ding.wav")} volume={0.5} />
     </Sequence>
     <Sequence from={244} name="FIRE bass">
-      <Audio src={A("bass.wav")} volume={0.54} />
+      <Audio src={A("bass.wav")} volume={0.66} />
     </Sequence>
   </>
 );
