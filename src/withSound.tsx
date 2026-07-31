@@ -6,12 +6,19 @@
 import { AbsoluteFill } from "remotion";
 import { Narrative } from "./Narrative";
 import { Loop } from "./Loop";
-import { SoundtrackNarrative, SoundtrackLoop } from "./audio/Soundtrack";
+import { SoundtrackNarrative, SoundtrackVO, SoundtrackLoop } from "./audio/Soundtrack";
 
 export const NarrativeSound: React.FC = () => (
   <AbsoluteFill>
     <Narrative />
     <SoundtrackNarrative />
+  </AbsoluteFill>
+);
+
+export const NarrativeVoiceover: React.FC = () => (
+  <AbsoluteFill>
+    <Narrative />
+    <SoundtrackVO />
   </AbsoluteFill>
 );
 

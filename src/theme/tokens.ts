@@ -111,17 +111,32 @@ export const COMBINED_FINAL = Math.round((BEHAVIORAL_FINAL + SOCIAL_FINAL) / 2);
 /* ── Timing (frames @ 30fps) ──────────────────────────────────────────────── */
 export const FPS = 30;
 
-/** ~25.5s narrative scene map. Sum = 765 frames. */
+/**
+ * ~30s narrative scene map. Sum = 900 frames. Durations give the voice-over room
+ * (each VO line sits inside its scene); scenes hold via Fade, so the extra time
+ * is breathing room, not dead air.
+ */
 export const NARRATIVE = {
-  wordmarkIn: { from: 0, duration: 60 }, // 0–2s     cold open
-  capture: { from: 60, duration: 105 }, // 2–5.5s    off-plan LP + signals
-  enrichment: { from: 165, duration: 120 }, // 5.5–9.5s  multi-source social profiling
-  globalScore: { from: 285, duration: 165 }, // 9.5–15s   behavioral + social -> FIRE gauge
-  crm: { from: 450, duration: 105 }, // 15–18.5s  Salesforce record + score add
-  phoneAlert: { from: 555, duration: 120 }, // 18.5–22.5s FIRE alert
-  wordmarkOut: { from: 675, duration: 90 }, // 22.5–25.5s end card
+  wordmarkIn: { from: 0, duration: 60 }, // 0–2s      cold open
+  capture: { from: 60, duration: 150 }, // 2–7s       off-plan LP + signals
+  enrichment: { from: 210, duration: 156 }, // 7–12.2s   multi-source social profiling
+  globalScore: { from: 366, duration: 162 }, // 12.2–17.6s behavioral + social -> FIRE gauge
+  crm: { from: 528, duration: 108 }, // 17.6–21.2s Salesforce record + score add
+  phoneAlert: { from: 636, duration: 126 }, // 21.2–25.4s FIRE alert
+  wordmarkOut: { from: 762, duration: 138 }, // 25.4–30s  end card
 } as const;
-export const NARRATIVE_DURATION = 765;
+export const NARRATIVE_DURATION = 900;
+
+/** Voice-over line start frames (each fits inside its scene). */
+export const VO_AT = {
+  l1: 6, // cold open
+  l2: 66, // capture
+  l3: 216, // enrichment
+  l4: 372, // global scoring
+  l5: 534, // crm
+  l6: 642, // phone
+  l7: 768, // end card
+} as const;
 
 /**
  * Ambient loop. 360 frames = 12.0s @ 30fps, deliberately a common multiple of

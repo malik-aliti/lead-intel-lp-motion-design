@@ -28,7 +28,7 @@ import {
   accentA,
   creamA,
 } from "./theme/tokens";
-import { BEHAVIORAL, CONVERGENCE, PROFILE, WORDMARK } from "./theme/strings";
+import { BEHAVIORAL, CONVERGENCE, CRM, PROFILE, WORDMARK } from "./theme/strings";
 import { useStage } from "./lib/useStage";
 import { Background } from "./components/Background";
 import { EngineCore } from "./components/EngineCore";
@@ -134,19 +134,44 @@ export const Loop: React.FC = () => {
         </div>
       </AbsoluteFill>
 
-      {/* combined score + FIRE, sitting just below the core */}
+      {/* the score is added to the existing Salesforce record (matches narrative) */}
       <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", translate: `0px ${height * 0.2}px` }}>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: unit * 1, opacity: combinedOp }}>
-          <Label size={unit * 1.3} color={creamA(0.5)} tracking={TRACK.labelWide}>
-            {CONVERGENCE.combinedLabel}
-          </Label>
-          <div style={{ display: "flex", alignItems: "center", gap: unit * 1.6 }}>
-            <ScoreCounter value={combined} unit={unit * 0.62} color={fire > 0.2 ? CLASS_COLORS.FIRE : COLORS.cream} />
-            <div style={{ display: "flex", alignItems: "center", gap: unit * 0.7, opacity: fire }}>
-              <span style={{ fontSize: unit * 1.8 }}>🔥</span>
-              <span style={{ fontFamily: FONT_FAMILY, fontWeight: WEIGHT.black, fontSize: unit * 2.4, letterSpacing: TRACK.label, color: CLASS_COLORS.FIRE, textShadow: `0 0 ${unit * 2 * fire}px ${accentA(0.7)}` }}>
-                {CONVERGENCE.classification}
-              </span>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: unit * 1.6,
+            opacity: combinedOp,
+            padding: `${unit * 1.3}px ${unit * 2}px`,
+            borderRadius: unit * 1.2,
+            background: `color-mix(in srgb, ${accentA(0.12)} ${fire * 100}%, ${creamA(0.04)})`,
+            border: `1px solid ${accentA(0.2 + 0.4 * fire)}`,
+          }}
+        >
+          <div style={{ width: unit * 3.2, height: unit * 3.2, borderRadius: unit * 0.7, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+            <svg width="72%" height="72%" viewBox="0 0 64 44" aria-hidden="true">
+              <g fill="#00A1E0">
+                <circle cx="24" cy="27" r="14" />
+                <circle cx="41" cy="25" r="12" />
+                <circle cx="34" cy="15" r="11" />
+                <circle cx="15" cy="31" r="9" />
+                <rect x="14" y="27" width="36" height="14" rx="7" />
+              </g>
+            </svg>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: unit * 0.3 }}>
+            <span style={{ fontFamily: FONT_FAMILY, fontWeight: WEIGHT.semibold, fontSize: unit * 1.3, color: COLORS.cream }}>
+              {CRM.destination} · {PROFILE.name}
+            </span>
+            <div style={{ display: "flex", alignItems: "baseline", gap: unit * 1.1 }}>
+              <Label size={unit * 1.15} color={accentA(0.85)} tracking={TRACK.label}>{CRM.scoreField}</Label>
+              <ScoreCounter value={combined} unit={unit * 0.5} color={fire > 0.2 ? CLASS_COLORS.FIRE : COLORS.cream} showOutOf={false} />
+              <div style={{ display: "flex", alignItems: "center", gap: unit * 0.5, opacity: fire }}>
+                <span style={{ fontSize: unit * 1.5 }}>🔥</span>
+                <span style={{ fontFamily: FONT_FAMILY, fontWeight: WEIGHT.black, fontSize: unit * 1.9, letterSpacing: TRACK.label, color: CLASS_COLORS.FIRE, textShadow: `0 0 ${unit * 1.6 * fire}px ${accentA(0.7)}` }}>
+                  {CONVERGENCE.classification}
+                </span>
+              </div>
             </div>
           </div>
         </div>

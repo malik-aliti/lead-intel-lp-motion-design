@@ -8,7 +8,7 @@ signature motion.
 
 Two deliverables from one codebase:
 
-- **Narrative** — a ~25.5s film (765f @ 30fps): cold open → lead arrives on a
+- **Narrative** — a ~30s film (900f @ 30fps): cold open → lead arrives on a
   realistic off-plan LP (behavioral signals) → social profiling (multi-source
   research → OXO AI → Social Fit) → global scoring (Behavioral + Social →
   Combined 91/100 → FIRE gauge) → OXO adds the score to the existing Salesforce
@@ -29,13 +29,13 @@ npm run dev            # opens Remotion Studio
 
 | id | aspect | frames | use |
 |---|---|---|---|
-| `Narrative-16x9` | 1920×1080 | 765 | primary hero film |
-| `Narrative-1x1`  | 1080×1080 | 765 | social / square |
-| `Narrative-9x16` | 1080×1920 | 765 | mobile / reels |
+| `Narrative-16x9` | 1920×1080 | 900 | primary hero film |
+| `Narrative-1x1`  | 1080×1080 | 900 | social / square |
+| `Narrative-9x16` | 1080×1920 | 900 | mobile / reels |
 | `Loop-16x9`      | 1920×1080 | 360 | ambient bg loop |
 | `Loop-1x1`       | 1080×1080 | 360 | ambient square |
 | `Loop-9x16`      | 1080×1920 | 360 | ambient mobile |
-| `Narrative-Sound-16x9` | 1920×1080 | 765 | **Version B** — hero film + sound design |
+| `Narrative-Sound-16x9` | 1920×1080 | 900 | **Version B** — hero film + sound design |
 | `Loop-Sound-16x9`      | 1920×1080 | 360 | **Version B** — ambient loop + sound |
 
 ### Two versions to compare (silent vs sound)
@@ -54,6 +54,17 @@ npx remotion render Narrative-Sound-16x9 out/videos/oxo-leadintel-hero-1080p30-S
 npx remotion render Loop-Sound-16x9      out/videos/oxo-leadintel-loop-1080p30-SOUND.mp4 --codec h264 --crf 18
 ```
 
+### Version C — voice-over
+
+A spoken explainer (7 short lines, one per step) over a quiet bed with only the
+FIRE accents kept, so the narration stays clear. Draft VO is generated locally
+with macOS `say` (voice Samantha) into `public/audio/vo/vo1..7.wav`; swap those
+files for a professional recording and re-render, no code change needed.
+
+```bash
+npx remotion render Narrative-VO-16x9 out/videos/oxo-leadintel-hero-1080p30-VO.mp4 --codec h264 --crf 18
+```
+
 ## Render the deliverables
 
 H.264 MP4 (autoplay muted inline on the LP) + VP9 WebM + a poster still:
@@ -63,8 +74,8 @@ H.264 MP4 (autoplay muted inline on the LP) + VP9 WebM + a poster still:
 npx remotion render Narrative-16x9 out/videos/oxo-leadintel-hero-1080p30.mp4  --codec h264 --crf 18
 npx remotion render Narrative-16x9 out/videos/oxo-leadintel-hero-1080p30.webm --codec vp9
 # poster: a strong still around the FIRE beat
-npx remotion still  Narrative-16x9 out/posters/poster-fire.png    --frame=415
-npx remotion still  Narrative-16x9 out/posters/poster-endcard.png --frame=750
+npx remotion still  Narrative-16x9 out/posters/poster-fire.png    --frame=470
+npx remotion still  Narrative-16x9 out/posters/poster-endcard.png --frame=840
 
 # ── Loop (ambient background) ──
 npx remotion render Loop-16x9 out/videos/oxo-leadintel-loop-1080p30.mp4  --codec h264 --crf 18

@@ -3,7 +3,7 @@ import { Composition } from "remotion";
 import { FPS, LOOP_DURATION, NARRATIVE_DURATION } from "./theme/tokens";
 import { Narrative } from "./Narrative";
 import { Loop } from "./Loop";
-import { NarrativeSound, LoopSound } from "./withSound";
+import { NarrativeSound, NarrativeVoiceover, LoopSound } from "./withSound";
 import "./theme/fonts";
 
 const ASPECTS = [
@@ -45,6 +45,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Narrative-Sound-16x9"
         component={NarrativeSound}
+        durationInFrames={NARRATIVE_DURATION}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Narrative-VO-16x9"
+        component={NarrativeVoiceover}
         durationInFrames={NARRATIVE_DURATION}
         fps={FPS}
         width={1920}
