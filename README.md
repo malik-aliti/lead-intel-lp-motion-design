@@ -32,6 +32,24 @@ npm run dev            # opens Remotion Studio
 | `Loop-16x9`      | 1920×1080 | 360 | ambient bg loop |
 | `Loop-1x1`       | 1080×1080 | 360 | ambient square |
 | `Loop-9x16`      | 1080×1920 | 360 | ambient mobile |
+| `Narrative-Sound-16x9` | 1920×1080 | 720 | **Version B** — hero film + sound design |
+| `Loop-Sound-16x9`      | 1920×1080 | 360 | **Version B** — ambient loop + sound |
+
+### Two versions to compare (silent vs sound)
+
+Same visuals, the only difference is audio. The LP autoplays muted, so the
+silent version is what most visitors see; the sound version is for social /
+unmuted contexts. The sound design is restrained and event-locked: a soft data
+tick as each captured signal lands, a slow rising tone as the score climbs, a
+gentle chime when the score locks at 91, and a notification ding + low bass hit
+at the FIRE alert, over a very quiet ambient bed. SFX are synthesized locally
+(`public/audio/*.wav`), no external assets; regenerate with
+`python3 scripts/make-sfx.py`.
+
+```bash
+npx remotion render Narrative-Sound-16x9 out/videos/oxo-leadintel-hero-1080p30-SOUND.mp4 --codec h264 --crf 18
+npx remotion render Loop-Sound-16x9      out/videos/oxo-leadintel-loop-1080p30-SOUND.mp4 --codec h264 --crf 18
+```
 
 ## Render the deliverables
 

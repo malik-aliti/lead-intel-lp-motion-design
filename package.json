@@ -8,6 +8,7 @@
   "dependencies": {
     "@remotion/cli": "4.0.499",
     "@remotion/fonts": "4.0.499",
+    "@remotion/media": "4.0.499",
     "@remotion/shapes": "4.0.499",
     "@remotion/tailwind-v4": "4.0.499",
     "@remotion/zod-types": "4.0.499",
