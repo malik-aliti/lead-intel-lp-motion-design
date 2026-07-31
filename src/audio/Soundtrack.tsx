@@ -15,41 +15,49 @@ import { Audio } from "@remotion/media";
 const A = (f: string) => staticFile(`audio/${f}`);
 
 /** Frames where the six capture signals light up (SceneCapture, global). */
-const TICKS = [80, 90, 100, 110, 120, 130];
-/** Soft ticks as the enrichment profile fields resolve (SceneEnrichment). */
-const ENRICH_TICKS = [190, 200, 210];
+const CAPTURE_TICKS = [86, 98, 110, 122, 134, 146];
+/** Soft ticks as each research source is matched (SceneEnrichment). */
+const ENRICH_TICKS = [178, 190, 202, 214];
 
 export const SoundtrackNarrative: React.FC = () => (
   <>
     {/* ambient bed: barely there */}
     <Audio src={A("bed.wav")} volume={0.1} loop />
     {/* capture ticks: soft, they should register subliminally */}
-    {TICKS.map((f, i) => (
-      <Sequence key={i} from={f} name={`tick ${i + 1}`}>
+    {CAPTURE_TICKS.map((f, i) => (
+      <Sequence key={i} from={f} name={`capture tick ${i + 1}`}>
         <Audio src={A("tick.wav")} volume={0.26} />
       </Sequence>
     ))}
-    {/* enrichment: soft ticks as profile fields resolve + a light social-score lock */}
+    {/* enrichment: a tick as each source matches + a light Social Fit lock */}
     {ENRICH_TICKS.map((f, i) => (
-      <Sequence key={`e${i}`} from={f} name={`enrich tick ${i + 1}`}>
-        <Audio src={A("tick.wav")} volume={0.22} />
+      <Sequence key={`e${i}`} from={f} name={`source ${i + 1}`}>
+        <Audio src={A("tick.wav")} volume={0.24} />
       </Sequence>
     ))}
-    <Sequence from={218} name="social lock">
+    <Sequence from={262} name="social fit lock">
       <Audio src={A("chime.wav")} volume={0.3} />
     </Sequence>
-    {/* rising tone under the dual scoring: present but never fatiguing */}
-    <Sequence from={240} name="score rise">
+    {/* rising tone under global scoring: present but never fatiguing */}
+    <Sequence from={285} name="score rise">
       <Audio src={A("rise.wav")} volume={0.3} />
     </Sequence>
     {/* the accents lead the mix — clear moments */}
-    <Sequence from={488} name="combined lock">
+    <Sequence from={398} name="combined lock">
       <Audio src={A("chime.wav")} volume={0.44} />
     </Sequence>
-    <Sequence from={626} name="notification ding">
+    {/* CRM: the score writes into the record */}
+    <Sequence from={490} name="crm write">
+      <Audio src={A("tick.wav")} volume={0.3} />
+    </Sequence>
+    <Sequence from={512} name="crm score lock">
+      <Audio src={A("chime.wav")} volume={0.34} />
+    </Sequence>
+    {/* phone FIRE alert */}
+    <Sequence from={581} name="notification ding">
       <Audio src={A("ding.wav")} volume={0.56} />
     </Sequence>
-    <Sequence from={638} name="FIRE bass">
+    <Sequence from={595} name="FIRE bass">
       <Audio src={A("bass.wav")} volume={0.72} />
     </Sequence>
   </>

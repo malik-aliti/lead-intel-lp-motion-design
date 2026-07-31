@@ -111,18 +111,17 @@ export const COMBINED_FINAL = Math.round((BEHAVIORAL_FINAL + SOCIAL_FINAL) / 2);
 /* ── Timing (frames @ 30fps) ──────────────────────────────────────────────── */
 export const FPS = 30;
 
-/** 27s narrative scene map. Sum = 810 frames. */
+/** ~25.5s narrative scene map. Sum = 765 frames. */
 export const NARRATIVE = {
-  wordmarkIn: { from: 0, duration: 60 }, // 0–2s   cold open
-  capture: { from: 60, duration: 90 }, // 2–5s
-  enrichment: { from: 150, duration: 90 }, // 5–8s   social profiling
-  dualScore: { from: 240, duration: 180 }, // 8–14s
-  convergence: { from: 420, duration: 90 }, // 14–17s
-  routeCRM: { from: 510, duration: 90 }, // 17–20s
-  phoneAlert: { from: 600, duration: 120 }, // 20–24s
-  wordmarkOut: { from: 720, duration: 90 }, // 24–27s end card
+  wordmarkIn: { from: 0, duration: 60 }, // 0–2s     cold open
+  capture: { from: 60, duration: 105 }, // 2–5.5s    off-plan LP + signals
+  enrichment: { from: 165, duration: 120 }, // 5.5–9.5s  multi-source social profiling
+  globalScore: { from: 285, duration: 165 }, // 9.5–15s   behavioral + social -> FIRE gauge
+  crm: { from: 450, duration: 105 }, // 15–18.5s  Salesforce record + score add
+  phoneAlert: { from: 555, duration: 120 }, // 18.5–22.5s FIRE alert
+  wordmarkOut: { from: 675, duration: 90 }, // 22.5–25.5s end card
 } as const;
-export const NARRATIVE_DURATION = 810;
+export const NARRATIVE_DURATION = 765;
 
 /**
  * Ambient loop. 360 frames = 12.0s @ 30fps, deliberately a common multiple of

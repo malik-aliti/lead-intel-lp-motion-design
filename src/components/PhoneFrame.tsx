@@ -123,26 +123,30 @@ export const PhoneFrame: React.FC<{
               alignItems: "flex-start",
             }}
           >
-            {/* app icon — ignites to FIRE */}
+            {/* Salesforce app icon (the alert comes from the CRM) */}
             <div
               style={{
                 width: w * 0.13,
                 height: w * 0.13,
                 borderRadius: w * 0.032,
                 flexShrink: 0,
-                background: `linear-gradient(135deg, ${mix("#4a4843", fireColor, ignite)}, ${mix("#2a2925", accentA(0.9), ignite)})`,
+                background: "#FFFFFF",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: FONT_FAMILY,
-                fontWeight: WEIGHT.black,
-                fontSize: w * 0.05,
-                letterSpacing: "-0.02em",
-                color: mix(creamA(0.9), COLORS.white, ignite),
-                boxShadow: ignite > 0.4 ? `0 0 ${unit * 2 * ignite}px ${accentA(0.6 * ignite)}` : "none",
+                overflow: "hidden",
+                boxShadow: `inset 0 0 0 1px rgba(0,0,0,0.06)`,
               }}
             >
-              OXO
+              <svg width="72%" height="72%" viewBox="0 0 64 44" aria-hidden="true">
+                <g fill="#00A1E0">
+                  <circle cx="24" cy="27" r="14" />
+                  <circle cx="41" cy="25" r="12" />
+                  <circle cx="34" cy="15" r="11" />
+                  <circle cx="15" cy="31" r="9" />
+                  <rect x="14" y="27" width="36" height="14" rx="7" />
+                </g>
+              </svg>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               {/* header: app name + time */}

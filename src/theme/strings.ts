@@ -37,14 +37,15 @@ export const PROFILE = {
   location: "Dubai, UAE",
 } as const;
 
-/** Social profiling / enrichment scene. */
+/** Social profiling / enrichment scene — multi-source research into OXO AI. */
 export const ENRICH = {
   label: "SOCIAL PROFILING",
   caption:
-    "The name from the lead form, resolved by AI into role, company, sector and geography.",
-  formLabel: "LEAD FORM",
-  nameFieldLabel: "Full name",
-  scoreLabel: "SOCIAL SCORE",
+    "OXO Lead Intel researches the profile across multiple sources, then computes the Social Fit score.",
+  seedLabel: "Lead form",
+  sources: ["LinkedIn", "Internet", "Company registry", "Public records"],
+  aiLabel: "OXO Lead Intel AI",
+  scoreLabel: "SOCIAL FIT SCORE",
 } as const;
 
 /** Convergence. */
@@ -58,15 +59,32 @@ export const CONVERGENCE = {
   classification: "FIRE",
 } as const;
 
-/** Route to CRM. */
+/**
+ * CRM scene. The lead is ALREADY in the company CRM (Salesforce). OXO Lead Intel
+ * does not create or route leads. It adds ONE thing: the score field.
+ * Sample record (clearly fictional) with the standard prospect fields.
+ */
 export const CRM = {
   destination: "Salesforce",
-  queue: "FIRE queue",
+  recordLabel: "Contact",
+  note: "The lead is already in your CRM. OXO Lead Intel only adds the score.",
+  fields: [
+    { label: "First name", value: "Ahmed" },
+    { label: "Last name", value: "Khalifa" },
+    { label: "Phone", value: "+971 50 418 2209" },
+    { label: "Email", value: "a.khalifa@meridiancp.ae" },
+    { label: "Company", value: "Meridian Capital Partners" },
+    { label: "Title", value: "Managing Director" },
+    { label: "Address", value: "Downtown, Dubai, UAE" },
+    { label: "Lead source", value: "Marina Heights LP" },
+  ],
+  scoreField: "OXO Lead Score",
+  addedBadge: "Added by OXO Lead Intel",
 } as const;
 
-/** Phone notification — three exact lines, middle-dot separators as written. */
+/** Phone notification — Salesforce alert. Three exact lines, middle dots as written. */
 export const PHONE = {
-  app: "OXO Lead Intel",
+  app: "Salesforce",
   time: "now",
   line1: "🔥 FIRE LEAD",
   line2: "Ahmed K. · Score 91 / 100",
@@ -79,10 +97,24 @@ export const END_CARD = {
   large: "Know which lead to call before your competitor does.",
 } as const;
 
-/** Property landing page abstraction (Scene 2 backdrop) — real, not lorem. */
+/** Off-plan property landing page (Scene 2). Realistic, not lorem. */
 export const LP = {
-  eyebrow: "OFF PLAN · DUBAI",
+  developer: "AURA DEVELOPMENT",
+  nav: ["Overview", "Residences", "Amenities", "Payment Plan"],
+  eyebrow: "OFF PLAN · DUBAI MARINA",
   title: "Marina Heights Residences",
+  tagline: "Waterfront 1 to 4 bedroom residences by the harbour.",
   price: "From AED 1.8M",
-  ctas: ["View gallery", "Download brochure", "Payment plan"],
+  cta: "Register your interest",
+  details: [
+    { k: "Bedrooms", v: "1 to 4 BR" },
+    { k: "Handover", v: "Q4 2027" },
+    { k: "Payment plan", v: "60 / 40" },
+    { k: "Location", v: "Dubai Marina" },
+  ],
+  form: {
+    title: "Register your interest",
+    fields: ["Full name", "Email", "Phone"],
+    submit: "Download brochure",
+  },
 } as const;
