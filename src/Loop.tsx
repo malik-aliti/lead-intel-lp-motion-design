@@ -16,11 +16,13 @@
  */
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import {
+  BEHAVIORAL_FINAL,
   CLASS_COLORS,
   COLORS,
   FONT_FAMILY,
   LOOP_DURATION,
   LOOP_PHASE,
+  SOCIAL_FINAL,
   TRACK,
   WEIGHT,
   accentA,
@@ -85,8 +87,8 @@ export const Loop: React.FC = () => {
   const p = (frame % LOOP_DURATION) / LOOP_DURATION;
 
   // scoring envelopes (return to 0 at the seam)
-  const behavioral = env(p, 0.16, 0.46, 0.8, 0.96) * 88;
-  const fit = env(p, 0.22, 0.52, 0.82, 0.96) * 94;
+  const behavioral = env(p, 0.16, 0.46, 0.8, 0.96) * BEHAVIORAL_FINAL;
+  const fit = env(p, 0.22, 0.52, 0.82, 0.96) * SOCIAL_FINAL;
 
   // combined score appears mid-cycle, counts up, fades before the seam
   const combinedOp = env(p, 0.46, 0.56, 0.84, 0.94);

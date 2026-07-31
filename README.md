@@ -8,10 +8,12 @@ signature motion.
 
 Two deliverables from one codebase:
 
-- **Narrative** — a 24s film (720f @ 30fps) that tells the story: cold open →
-  lead arrives → dual scoring (Behavioral + Fit) → convergence to a Combined
-  Score of 91/100 and FIRE ignition → route into Salesforce → the phone FIRE
-  alert → end card.
+- **Narrative** — a 27s film (810f @ 30fps) that tells the story: cold open →
+  lead arrives → social profiling (AI enrichment → Social score) → dual scoring
+  (Behavioral + Social) → convergence to a Combined Score of 91/100 and FIRE
+  ignition → route into Salesforce → the phone FIRE alert → end card.
+  Scores are centralized in `SCORING` (tokens.ts): realistic funnel strengths
+  (94/84/82/92) → Behavioral 88, Social 94, Combined 91, identical on every frame.
 - **Loop** — a 12s seamless ambient background loop (360f @ 30fps) derived from
   the same primitives. Calmer, airier, no end card. Frame 0 === frame 360.
 
@@ -26,9 +28,9 @@ npm run dev            # opens Remotion Studio
 
 | id | aspect | frames | use |
 |---|---|---|---|
-| `Narrative-16x9` | 1920×1080 | 720 | primary hero film |
-| `Narrative-1x1`  | 1080×1080 | 720 | social / square |
-| `Narrative-9x16` | 1080×1920 | 720 | mobile / reels |
+| `Narrative-16x9` | 1920×1080 | 810 | primary hero film |
+| `Narrative-1x1`  | 1080×1080 | 810 | social / square |
+| `Narrative-9x16` | 1080×1920 | 810 | mobile / reels |
 | `Loop-16x9`      | 1920×1080 | 360 | ambient bg loop |
 | `Loop-1x1`       | 1080×1080 | 360 | ambient square |
 | `Loop-9x16`      | 1080×1920 | 360 | ambient mobile |
@@ -60,8 +62,8 @@ H.264 MP4 (autoplay muted inline on the LP) + VP9 WebM + a poster still:
 npx remotion render Narrative-16x9 out/videos/oxo-leadintel-hero-1080p30.mp4  --codec h264 --crf 18
 npx remotion render Narrative-16x9 out/videos/oxo-leadintel-hero-1080p30.webm --codec vp9
 # poster: a strong still around the FIRE beat
-npx remotion still  Narrative-16x9 out/posters/poster-fire.png    --frame=402
-npx remotion still  Narrative-16x9 out/posters/poster-endcard.png --frame=716
+npx remotion still  Narrative-16x9 out/posters/poster-fire.png    --frame=490
+npx remotion still  Narrative-16x9 out/posters/poster-endcard.png --frame=795
 
 # ── Loop (ambient background) ──
 npx remotion render Loop-16x9 out/videos/oxo-leadintel-loop-1080p30.mp4  --codec h264 --crf 18

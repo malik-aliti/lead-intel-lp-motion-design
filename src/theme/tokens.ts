@@ -85,20 +85,44 @@ export const EASE_STD = [0.4, 0, 0.2, 1] as const;
 /** Overshoot settle, from the site's alert (.pipe-alert). */
 export const EASE_BACK = [0.34, 1.56, 0.64, 1] as const;
 
+/* ── Scoring (single source of truth) ─────────────────────────────────────── */
+/**
+ * Realistic funnel-stage strengths (80–99). The Behavioral score is their mean,
+ * the Social (profile) score is fixed, and the Combined score is the 50/50 blend.
+ * Every frame reads these so the totals never drift.
+ *   mean(94,84,82,92) = 88  ·  social 94  ·  combined (88+94)/2 = 91
+ */
+export const SCORING = {
+  stages: [
+    { name: "Discovery", score: 94 },
+    { name: "Interest", score: 84 },
+    { name: "Consideration", score: 82 },
+    { name: "Decision", score: 92 },
+  ],
+  social: 94,
+} as const;
+
+export const BEHAVIORAL_FINAL = Math.round(
+  SCORING.stages.reduce((a, s) => a + s.score, 0) / SCORING.stages.length,
+); // 88
+export const SOCIAL_FINAL = SCORING.social; // 94
+export const COMBINED_FINAL = Math.round((BEHAVIORAL_FINAL + SOCIAL_FINAL) / 2); // 91
+
 /* ── Timing (frames @ 30fps) ──────────────────────────────────────────────── */
 export const FPS = 30;
 
-/** 24s narrative scene map. Sum = 720 frames. */
+/** 27s narrative scene map. Sum = 810 frames. */
 export const NARRATIVE = {
-  wordmarkIn: { from: 0, duration: 60 }, // 0–2s  cold open
+  wordmarkIn: { from: 0, duration: 60 }, // 0–2s   cold open
   capture: { from: 60, duration: 90 }, // 2–5s
-  dualScore: { from: 150, duration: 180 }, // 5–11s
-  convergence: { from: 330, duration: 90 }, // 11–14s
-  routeCRM: { from: 420, duration: 90 }, // 14–17s
-  phoneAlert: { from: 510, duration: 120 }, // 17–21s
-  wordmarkOut: { from: 630, duration: 90 }, // 21–24s  end card
+  enrichment: { from: 150, duration: 90 }, // 5–8s   social profiling
+  dualScore: { from: 240, duration: 180 }, // 8–14s
+  convergence: { from: 420, duration: 90 }, // 14–17s
+  routeCRM: { from: 510, duration: 90 }, // 17–20s
+  phoneAlert: { from: 600, duration: 120 }, // 20–24s
+  wordmarkOut: { from: 720, duration: 90 }, // 24–27s end card
 } as const;
-export const NARRATIVE_DURATION = 720;
+export const NARRATIVE_DURATION = 810;
 
 /**
  * Ambient loop. 360 frames = 12.0s @ 30fps, deliberately a common multiple of

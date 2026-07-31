@@ -14,13 +14,13 @@ import {
   accentA,
   creamA,
 } from "../theme/tokens";
+import { BEHAVIORAL_FINAL, SOCIAL_FINAL } from "../theme/tokens";
 import { CONVERGENCE } from "../theme/strings";
 import { useStage } from "../lib/useStage";
 import { expo } from "../lib/anim";
 import { Label } from "../components/Label";
 import { ScoreCounter } from "../components/ScoreCounter";
 import { Fade } from "../components/Fade";
-import { BEHAVIORAL_FINAL, FIT_FINAL } from "./SceneDualScore";
 
 const WeightChip: React.FC<{
   label: string;
@@ -115,7 +115,7 @@ export const SceneConvergence: React.FC<{ dur: number }> = ({ dur }) => {
           <span style={{ fontFamily: FONT_FAMILY, fontWeight: WEIGHT.light, fontSize: unit * 3, color: COLORS.dim, opacity: interpolate(frame, [10, 24], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) }}>
             +
           </span>
-          <WeightChip label={CONVERGENCE.fitWeight} value={FIT_FINAL} side={1} frame={frame} unit={unit} color={COLORS.warm2} />
+          <WeightChip label={CONVERGENCE.socialWeight} value={SOCIAL_FINAL} side={1} frame={frame} unit={unit} color={COLORS.warm2} />
         </div>
 
         {/* Combined Score */}

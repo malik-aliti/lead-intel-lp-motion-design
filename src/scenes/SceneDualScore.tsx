@@ -1,16 +1,19 @@
 /**
- * Scene 3 — the split. The frame divides into two parallel tracks that run at
+ * Scene 4 — the split. The frame divides into two parallel tracks that run at
  * once, joined by the signature terracotta divider.
- *   Left  BEHAVIORAL: captured signals fill a funnel (Discovery -> Decision)
- *                     and a meter climbs to 88.
- *   Right FIT/PROFILE: the identity enriches into the profile card and a Fit
- *                      meter climbs to 94.
- * (88 + 94) / 2 = 91 -> the Combined Score resolved in Scene 4. Real numbers.
+ *   Left  BEHAVIORAL: the funnel fills to realistic per-stage strengths
+ *                     (Discovery..Decision) and a meter climbs to the mean (88).
+ *   Right SOCIAL: the enriched profile + a Social meter climbing to 94.
+ * (88 + 94) / 2 = 91 -> the Combined Score resolved in the next scene. All
+ * scores read from SCORING in tokens so the totals never drift.
  */
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 import {
+  BEHAVIORAL_FINAL,
   COLORS,
   FONT_FAMILY,
+  SCORING,
+  SOCIAL_FINAL,
   TRACK,
   WEIGHT,
   accentA,
@@ -24,20 +27,22 @@ import { Meter } from "../components/Meter";
 import { ProfileCard } from "../components/ProfileCard";
 import { Fade } from "../components/Fade";
 
-/** Behavioral / Fit finals — publicly meaningful so Scene 4 can reuse them. */
-export const BEHAVIORAL_FINAL = 88;
-export const FIT_FINAL = 94;
-
 const FunnelStage: React.FC<{
   name: string;
+  score: number; // realistic per-stage strength (80..99)
   index: number;
-  behavioral: number; // current 0..100
+  frame: number;
   unit: number;
   width: number;
-}> = ({ name, index, behavioral, unit, width }) => {
-  // stage becomes active as behavioral crosses its band
-  const threshold = index * 22;
-  const fill = interpolate(behavioral, [threshold, threshold + 24], [0, 1], {
+}> = ({ name, score, index, frame, unit, width }) => {
+  const start = 22 + index * 12;
+  const target = score / 100;
+  const fill = interpolate(frame, [start, start + 40], [0, target], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: expo,
+  });
+  const lit = interpolate(frame, [start, start + 40], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -49,7 +54,7 @@ const FunnelStage: React.FC<{
             fontFamily: FONT_FAMILY,
             fontWeight: WEIGHT.medium,
             fontSize: unit * 1.7,
-            color: `color-mix(in srgb, ${COLORS.cream} ${fill * 100}%, ${COLORS.dim})`,
+            color: `color-mix(in srgb, ${COLORS.cream} ${lit * 100}%, ${COLORS.dim})`,
           }}
         >
           {name}
@@ -59,7 +64,7 @@ const FunnelStage: React.FC<{
             fontFamily: FONT_FAMILY,
             fontWeight: WEIGHT.semibold,
             fontSize: unit * 1.3,
-            color: accentA(0.4 + 0.5 * fill),
+            color: accentA(0.4 + 0.5 * lit),
             fontVariantNumeric: "tabular-nums",
           }}
         >
@@ -90,7 +95,7 @@ export const SceneDualScore: React.FC<{ dur: number }> = ({ dur }) => {
     extrapolateRight: "clamp",
     easing: expo,
   });
-  const fit = interpolate(frame, [34, 158], [0, FIT_FINAL], {
+  const social = interpolate(frame, [34, 158], [0, SOCIAL_FINAL], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: expo,
@@ -118,8 +123,8 @@ export const SceneDualScore: React.FC<{ dur: number }> = ({ dur }) => {
       </Label>
       <div style={{ display: "flex", gap: unit * 3, alignItems: "flex-end" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: unit * 1.4 }}>
-          {BEHAVIORAL.stages.map((s, i) => (
-            <FunnelStage key={s} name={s} index={i} behavioral={behavioral} unit={unit} width={funnelW} />
+          {SCORING.stages.map((s, i) => (
+            <FunnelStage key={s.name} name={s.name} score={s.score} index={i} frame={frame} unit={unit} width={funnelW} />
           ))}
         </div>
         <Meter
@@ -134,7 +139,7 @@ export const SceneDualScore: React.FC<{ dur: number }> = ({ dur }) => {
     </div>
   );
 
-  const FitTrack = (
+  const SocialTrack = (
     <div
       style={{
         display: "flex",
@@ -150,8 +155,8 @@ export const SceneDualScore: React.FC<{ dur: number }> = ({ dur }) => {
       <div style={{ display: "flex", gap: unit * 3, alignItems: "flex-end" }}>
         <ProfileCard reveal={frame - 12} unit={unit} width={funnelW + unit * 2} />
         <Meter
-          value={fit}
-          label="Fit"
+          value={social}
+          label="Social"
           color={COLORS.warm2}
           length={meterLen}
           thickness={unit * 1.1}
@@ -194,7 +199,7 @@ export const SceneDualScore: React.FC<{ dur: number }> = ({ dur }) => {
           />
         </div>
 
-        {FitTrack}
+        {SocialTrack}
       </AbsoluteFill>
 
       {/* both-climbing readout, quiet, centered bottom (landscape only) */}
@@ -212,7 +217,7 @@ export const SceneDualScore: React.FC<{ dur: number }> = ({ dur }) => {
           }}
         >
           <TinyStat label="Behavioral" value={behavioral} color={COLORS.accent} unit={unit} />
-          <TinyStat label="Fit" value={fit} color={COLORS.warm2} unit={unit} />
+          <TinyStat label="Social" value={social} color={COLORS.warm2} unit={unit} />
         </div>
       ) : null}
     </Fade>

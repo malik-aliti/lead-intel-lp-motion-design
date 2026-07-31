@@ -16,6 +16,8 @@ const A = (f: string) => staticFile(`audio/${f}`);
 
 /** Frames where the six capture signals light up (SceneCapture, global). */
 const TICKS = [80, 90, 100, 110, 120, 130];
+/** Soft ticks as the enrichment profile fields resolve (SceneEnrichment). */
+const ENRICH_TICKS = [190, 200, 210];
 
 export const SoundtrackNarrative: React.FC = () => (
   <>
@@ -27,18 +29,27 @@ export const SoundtrackNarrative: React.FC = () => (
         <Audio src={A("tick.wav")} volume={0.26} />
       </Sequence>
     ))}
-    {/* rising tone under the scoring: present but never fatiguing */}
-    <Sequence from={150} name="score rise">
+    {/* enrichment: soft ticks as profile fields resolve + a light social-score lock */}
+    {ENRICH_TICKS.map((f, i) => (
+      <Sequence key={`e${i}`} from={f} name={`enrich tick ${i + 1}`}>
+        <Audio src={A("tick.wav")} volume={0.22} />
+      </Sequence>
+    ))}
+    <Sequence from={218} name="social lock">
+      <Audio src={A("chime.wav")} volume={0.3} />
+    </Sequence>
+    {/* rising tone under the dual scoring: present but never fatiguing */}
+    <Sequence from={240} name="score rise">
       <Audio src={A("rise.wav")} volume={0.3} />
     </Sequence>
     {/* the accents lead the mix — clear moments */}
-    <Sequence from={398} name="score lock">
+    <Sequence from={488} name="combined lock">
       <Audio src={A("chime.wav")} volume={0.44} />
     </Sequence>
-    <Sequence from={540} name="notification ding">
+    <Sequence from={626} name="notification ding">
       <Audio src={A("ding.wav")} volume={0.56} />
     </Sequence>
-    <Sequence from={552} name="FIRE bass">
+    <Sequence from={638} name="FIRE bass">
       <Audio src={A("bass.wav")} volume={0.72} />
     </Sequence>
   </>

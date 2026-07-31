@@ -37,10 +37,20 @@ export const PROFILE = {
   location: "Dubai, UAE",
 } as const;
 
+/** Social profiling / enrichment scene. */
+export const ENRICH = {
+  label: "SOCIAL PROFILING",
+  caption:
+    "The name from the lead form, resolved by AI into role, company, sector and geography.",
+  formLabel: "LEAD FORM",
+  nameFieldLabel: "Full name",
+  scoreLabel: "SOCIAL SCORE",
+} as const;
+
 /** Convergence. */
 export const CONVERGENCE = {
   behavioralWeight: "Behavioral 50%",
-  fitWeight: "Fit 50%",
+  socialWeight: "Social 50%",
   combinedLabel: "Combined Score",
   scoreValue: 91,
   scoreOutOf: 100,
@@ -56,6 +66,8 @@ export const CRM = {
 
 /** Phone notification — three exact lines, middle-dot separators as written. */
 export const PHONE = {
+  app: "OXO Lead Intel",
+  time: "now",
   line1: "🔥 FIRE LEAD",
   line2: "Ahmed K. · Score 91 / 100",
   line3: "Call within 5 minutes",

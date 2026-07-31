@@ -105,59 +105,85 @@ export const PhoneFrame: React.FC<{
             </div>
           </div>
 
-          {/* the FIRE push notification */}
+          {/* the FIRE push notification — iOS lock-screen style */}
           <div
             style={{
-              margin: `0 ${w * 0.06}px`,
-              padding: w * 0.055,
-              borderRadius: w * 0.07,
-              background: "rgba(38,37,34,0.86)",
-              backdropFilter: "blur(6px)",
-              border: `1px solid ${accentA(0.25 + 0.35 * ignite)}`,
-              boxShadow: `0 ${unit}px ${unit * 4}px rgba(0,0,0,0.4)`,
+              margin: `0 ${w * 0.038}px`,
+              padding: `${w * 0.048}px ${w * 0.05}px`,
+              borderRadius: w * 0.085,
+              background: "rgba(46,45,42,0.7)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+              border: `1px solid ${mix(creamA(0.12), accentA(0.55), ignite)}`,
+              boxShadow: `0 ${unit}px ${unit * 4}px rgba(0,0,0,0.45), inset 0 1px 0 ${creamA(0.08)}`,
               translate: `0px ${ny}px`,
               opacity: nOpacity,
               display: "flex",
-              gap: w * 0.045,
+              gap: w * 0.04,
               alignItems: "flex-start",
             }}
           >
-            {/* app glyph — ignites to FIRE */}
+            {/* app icon — ignites to FIRE */}
             <div
               style={{
-                width: w * 0.12,
-                height: w * 0.12,
-                borderRadius: w * 0.03,
+                width: w * 0.13,
+                height: w * 0.13,
+                borderRadius: w * 0.032,
                 flexShrink: 0,
-                background: `linear-gradient(135deg, ${mix(creamA(0.15), fireColor, ignite)}, ${mix("#3a3a36", accentA(0.85), ignite)})`,
+                background: `linear-gradient(135deg, ${mix("#4a4843", fireColor, ignite)}, ${mix("#2a2925", accentA(0.9), ignite)})`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: w * 0.06,
-                boxShadow: ignite > 0.5 ? `0 0 ${unit * 2 * ignite}px ${accentA(0.6 * ignite)}` : "none",
+                fontFamily: FONT_FAMILY,
+                fontWeight: WEIGHT.black,
+                fontSize: w * 0.05,
+                letterSpacing: "-0.02em",
+                color: mix(creamA(0.9), COLORS.white, ignite),
+                boxShadow: ignite > 0.4 ? `0 0 ${unit * 2 * ignite}px ${accentA(0.6 * ignite)}` : "none",
               }}
             >
               OXO
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
+              {/* header: app name + time */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: w * 0.006 }}>
+                <span
+                  style={{
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: WEIGHT.semibold,
+                    fontSize: w * 0.031,
+                    letterSpacing: "0.03em",
+                    textTransform: "uppercase",
+                    color: creamA(0.52),
+                  }}
+                >
+                  {PHONE.app}
+                </span>
+                <span style={{ fontFamily: FONT_FAMILY, fontWeight: WEIGHT.regular, fontSize: w * 0.031, color: creamA(0.4) }}>
+                  {PHONE.time}
+                </span>
+              </div>
+              {/* title */}
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
                   fontWeight: WEIGHT.bold,
-                  fontSize: w * 0.058,
+                  fontSize: w * 0.05,
                   color: mix(COLORS.cream, fireColor, ignite * 0.9),
-                  letterSpacing: "0.01em",
+                  letterSpacing: "0.004em",
+                  lineHeight: 1.15,
                 }}
               >
                 {PHONE.line1}
               </div>
+              {/* body */}
               <div
                 style={{
                   fontFamily: FONT_FAMILY,
-                  fontWeight: WEIGHT.medium,
-                  fontSize: w * 0.046,
-                  color: creamA(0.82),
-                  marginTop: w * 0.012,
+                  fontWeight: WEIGHT.regular,
+                  fontSize: w * 0.04,
+                  color: creamA(0.8),
+                  marginTop: w * 0.008,
                   whiteSpace: "nowrap",
                 }}
               >
@@ -167,9 +193,9 @@ export const PhoneFrame: React.FC<{
                 style={{
                   fontFamily: FONT_FAMILY,
                   fontWeight: WEIGHT.regular,
-                  fontSize: w * 0.047,
+                  fontSize: w * 0.04,
                   color: creamA(0.55),
-                  marginTop: w * 0.01,
+                  marginTop: w * 0.005,
                 }}
               >
                 {PHONE.line3}
