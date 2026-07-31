@@ -1,54 +1,145 @@
-# Remotion video
+# OXO Lead Intel — hero motion film (Remotion)
 
-<p align="center">
-  <a href="https://github.com/remotion-dev/logo">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-dark.apng">
-      <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
-    </picture>
-  </a>
-</p>
+A narrative product film + ambient loop for the hero section of the OXO Property
+Dubai lead-gen landing page. Built to feel native to the live site: same font
+(Poppins), same restrained navy + warm-grey palette, same single terracotta
+accent (`#E18D5E`), and the site's own scan-line device promoted into the film's
+signature motion.
 
-Welcome to your Remotion project!
+Two deliverables from one codebase:
 
-## Commands
+- **Narrative** — a 24s film (720f @ 30fps) that tells the story: cold open →
+  lead arrives → dual scoring (Behavioral + Fit) → convergence to a Combined
+  Score of 91/100 and FIRE ignition → route into Salesforce → the phone FIRE
+  alert → end card.
+- **Loop** — a 12s seamless ambient background loop (360f @ 30fps) derived from
+  the same primitives. Calmer, airier, no end card. Frame 0 === frame 360.
 
-**Install Dependencies**
+## Run the studio
 
-```console
-npm i
+```bash
+npm install
+npm run dev            # opens Remotion Studio
 ```
 
-**Start Preview**
+## Compositions
 
-```console
-npm run dev
+| id | aspect | frames | use |
+|---|---|---|---|
+| `Narrative-16x9` | 1920×1080 | 720 | primary hero film |
+| `Narrative-1x1`  | 1080×1080 | 720 | social / square |
+| `Narrative-9x16` | 1080×1920 | 720 | mobile / reels |
+| `Loop-16x9`      | 1920×1080 | 360 | ambient bg loop |
+| `Loop-1x1`       | 1080×1080 | 360 | ambient square |
+| `Loop-9x16`      | 1080×1920 | 360 | ambient mobile |
+
+## Render the deliverables
+
+H.264 MP4 (autoplay muted inline on the LP) + VP9 WebM + a poster still:
+
+```bash
+# ── Narrative (hero film) ──
+npx remotion render Narrative-16x9 out/videos/oxo-leadintel-hero-1080p30.mp4  --codec h264 --crf 18
+npx remotion render Narrative-16x9 out/videos/oxo-leadintel-hero-1080p30.webm --codec vp9
+# poster: a strong still around the FIRE beat
+npx remotion still  Narrative-16x9 out/posters/poster-fire.png    --frame=402
+npx remotion still  Narrative-16x9 out/posters/poster-endcard.png --frame=716
+
+# ── Loop (ambient background) ──
+npx remotion render Loop-16x9 out/videos/oxo-leadintel-loop-1080p30.mp4  --codec h264 --crf 18
+npx remotion render Loop-16x9 out/videos/oxo-leadintel-loop-1080p30.webm --codec vp9
+
+# ── Social variants (reuse the same components) ──
+npx remotion render Narrative-9x16 out/videos/oxo-leadintel-hero-9x16.mp4 --codec h264 --crf 18
+npx remotion render Narrative-1x1  out/videos/oxo-leadintel-hero-1x1.mp4  --codec h264 --crf 18
 ```
 
-**Render video**
+Tips: add `--frames=0-120` to render a slice, `--scale=0.5` for a fast preview
+render, `--concurrency=4` to bound CPU.
 
-```console
-npx remotion render
+## Embedding on the landing page
+
+Narrative (plays once on scroll-into-view, freezes on a clean final frame):
+
+```html
+<video
+  poster="poster-fire.png"
+  muted playsinline preload="metadata"
+  style="width:100%;height:auto">
+  <source src="oxo-leadintel-hero-1080p30.webm" type="video/webm" />
+  <source src="oxo-leadintel-hero-1080p30.mp4"  type="video/mp4" />
+</video>
+<script>
+  // play once when it scrolls into view; the film ends on a designed freeze frame
+  const v = document.currentScript.previousElementSibling;
+  new IntersectionObserver((e, o) => {
+    if (e[0].isIntersecting) { v.play(); o.disconnect(); }
+  }, { threshold: 0.4 }).observe(v);
+</script>
 ```
 
-**Upgrade Remotion**
+Ambient loop (muted autoplay, loops forever):
 
-```console
-npx remotion upgrade
+```html
+<video autoplay muted loop playsinline
+  style="width:100%;height:auto">
+  <source src="oxo-leadintel-loop-1080p30.webm" type="video/webm" />
+  <source src="oxo-leadintel-loop-1080p30.mp4"  type="video/mp4" />
+</video>
 ```
 
-## Docs
+The film reads perfectly silent (it autoplays muted on the LP). Optional sound
+design can be added later via `<Audio>` without touching the visuals.
 
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
+## Architecture
 
-## Help
+Everything is config-driven — no magic numbers scattered in components.
 
-We provide help on our [Discord server](https://discord.gg/6VzzNDwUwV).
+```
+src/
+  theme/
+    tokens.ts     colors, Poppins stack, tracking, easings, scene timing, layout
+    strings.ts    every on-screen string, verbatim (no em dashes)
+    fonts.ts      self-hosted Poppins loader + useFontsReady() render gate
+  lib/
+    anim.ts       expo easing, prog(), spring enter(), stagger()
+    useStage.ts   aspect-aware unit / margins (one set of scenes → 3 ratios)
+  components/      Background, ScanLine (signature), EngineCore, Meter, Wordmark,
+                   Label, ProfileCard, ScoreCounter, PhoneFrame, LeadPacket, Fade
+  scenes/         SceneWordmark (open + end), SceneCapture, SceneDualScore,
+                   SceneConvergence, SceneRouteCRM, ScenePhoneAlert
+  Narrative.tsx   the 24s film (scenes as <Sequence>s over one canvas)
+  Loop.tsx        the 12s seamless loop (same primitives, phase-driven)
+  Root.tsx        registers all 6 compositions
+public/fonts/     Poppins 300–900 woff2 (self-hosted, matches the live site)
+```
 
-## Issues
+### Brand tokens (extracted 1:1 from the live site stylesheet)
 
-Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
+- Canvas `#202020` (warm near-black), primary text cream `#F3F0EC`, dim `#B5AF9F`
+- Single accent / FIRE: terracotta **`#E18D5E`** — drives the scan line, engine
+  core, score, FIRE ignition and the end-card line
+- Classification: FIRE `#E18D5E` · HOT `#C0BCAF` · WARM `#B5AF9F` · COLD `#414141`
+- Type: **Poppins**, display at weight 400 + tight tracking, punctuated by
+  800/900 uppercase; micro-labels 600/700 at wide tracking
 
-## License
+### Signature motion
 
-Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+A thin terracotta scan line (the site's own `.scan`, promoted) reads every value
+into existence — the wordmark, meters, the score, the CRM record — and draws the
+underline beneath the end-card line. It is the one recurring device.
+
+### Seamless loop
+
+`Loop-16x9` is 360 frames = a whole multiple of the engine's ring/pulse periods
+(120/90/60), so the continuously spinning core wraps with no rotational jump.
+Every other quantity is a function of loop phase with an envelope that returns to
+its frame-0 value at the seam; two lead packets offset by half a period keep one
+always in frame. Verified: `out/posters/loop-seam-check.png` (frame 359 vs 0),
+mean difference 0.21%.
+
+## 60fps
+
+The primary is 30fps as briefed. A 60fps variant is a mechanical change (double
+the frame counts in `tokens.ts` `NARRATIVE`/`LOOP_DURATION` and the per-scene
+windows); ask and I'll add a `-60` composition set.
