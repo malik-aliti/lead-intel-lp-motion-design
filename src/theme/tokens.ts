@@ -127,15 +127,19 @@ export const NARRATIVE = {
 } as const;
 export const NARRATIVE_DURATION = 900;
 
-/** Voice-over line start frames (each fits inside its scene). */
+/**
+ * Voice-over line start frames. Tuned so each line clears the previous one (no
+ * overlapping speech) and the last finishes before frame 900, while staying
+ * aligned to its scene. Sized for the Reed voice at rate 205.
+ */
 export const VO_AT = {
   l1: 6, // cold open
-  l2: 66, // capture
-  l3: 216, // enrichment
-  l4: 372, // global scoring
+  l2: 78, // capture
+  l3: 232, // enrichment
+  l4: 388, // global scoring
   l5: 534, // crm
   l6: 642, // phone
-  l7: 768, // end card
+  l7: 760, // end card
 } as const;
 
 /**
